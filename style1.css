@@ -1,0 +1,133 @@
+*{
+    font-family: Verdana;
+}
+.logo-name{
+    font-family: 'cinzel' ,serif;
+    margin: 0px;
+    color: #2E7D32;
+    font-size: 2rem;
+}
+.navbar{
+    background: #FFFFFF !important ;
+    border-bottom: 1px solid #E8F5E9 !important;
+}
+.active-nav{
+    color: #19511c !important;
+}
+.hero{
+    background-image: url('images/hero.png');
+    background-size: cover;
+    background-position: 50% 50%;
+    height : 65vh;
+}
+.hero-head{
+    font-size: 3rem;
+    font-family: 'cinzel' , serif ;
+}
+button:hover{
+    scale:calc(1.02)
+}
+.box{
+    height : 270px;
+    /* width : 20%; */
+    background: #ffffff;
+    border: 1px solid #E8F5E9;
+    border-radius: 24px;
+    padding: 35px 25px;
+    box-shadow: 0 8px 25px rgba(46,125,50,0.8);
+    transition: all 0.3s ease;
+}
+.third-section{
+    background-color: rgb(237, 233, 233);
+}
+.box:hover{
+    scale: calc(1.02);
+}
+.fourth-section{
+    background-image: url('images/last-section-home.png');
+    background-size: cover;
+    background-position: 50% 50%;
+    height : 200px;
+}
+.footer{
+    background-color :#016806;
+}
+@media (min-width : 1000px){
+    .box{
+        width : 20%;
+    }
+}
+@media (min-width : 768px) and (max-width : 999px) {
+    .box{
+        width : 24%;
+    }
+}
+@media (max-width : 1000px){
+    .hero{
+        height : 75vh;
+        width : 100vw;
+    }
+    .fourth-section p{
+        width: 75% !important;
+    }
+    .fourth-section button{
+        display: none;
+    }
+}
+@media (max-width : 650px){
+    .hero{
+        height : 70vh;
+    }
+    .hero-content{
+        margin-left: 1.5rem !important;
+    }
+    .hero-head{
+        font-size: 2rem;
+    }
+    .hero p{
+        font-size: 0.9rem !important;
+    }
+    .hero button{
+        width : 24% !important;
+        font-size: 0.7rem;
+    }
+    .hero-head + p{
+        font-size: 1rem !important;
+        font-weight :600;
+    }
+    .fourth-section h4{
+        font-size: 1.1rem !important;
+    }
+    .fourth-section p{
+        font-size: 0.9rem !important;
+    }
+}
+@media (max-width : 480px){
+    .hero-content > p{
+        text-align: center;
+        width: 80% !important;
+    }
+    .hero-content{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .hero button{
+        width : 100px !important;
+        font-size: 0.7rem;
+    }
+    .logo-name{
+        font-size: 1.5rem;
+    }
+    .logo-box img{
+        width : 40px;
+    }
+    .fourth-section h4{
+        font-size: 0.8rem !important;
+    }
+    .fourth-section p{
+        font-size: 0.7rem !important;
+    }
+}
+
