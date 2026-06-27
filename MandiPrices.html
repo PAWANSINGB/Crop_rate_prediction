@@ -118,6 +118,22 @@
 
           </div>
 
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 mt-3">
+              <div class="btn-group" role="group" aria-label="Pagination controls">
+                  <button type="button" class="btn btn-outline-success" id="prev-page">Previous</button>
+                  <button type="button" class="btn btn-outline-success" id="next-page">Next</button>
+              </div>
+              <div class="text-muted" id="page-info">Page 1 of 1</div>
+              <div class="d-flex align-items-center gap-2">
+                  <label for="page-size" class="mb-0">Rows:</label>
+                  <select id="page-size" class="form-select form-select-sm" style="width: auto; min-width: 80px;">
+                      <option value="10">10</option>
+                      <option value="20" selected>20</option>
+                      <option value="50">50</option>
+                  </select>
+              </div>
+          </div>
+
       </section>
       <section class="container my-5">
 

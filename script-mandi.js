@@ -1,205 +1,42 @@
 
-const crops = [
-    "Wheat","Rice","Maize","Potato","Sugarcane",
-    "Barley","Bajra","Jowar","Gram","Mustard",
-    "Soybean","Groundnut","Cotton","Turmeric",
-    "Onion","Tomato","Garlic","Chilli","Moong",
-    "Urad","Arhar","Masoor","Peas","Sunflower",
-    "Sesamum","Tea","Coffee","Apple","Banana",
-    "Mango","Orange","Grapes","Papaya","Guava"
-];
 const cropSelect = document.querySelector("#crop");
-
-crops.forEach(crop => {
-    cropSelect.innerHTML += `
-        <option value="${crop}">
-            ${crop}
-        </option>
-    `;
-});
-const states = [
-    "Andhra Pradesh",
-    "Arunachal Pradesh",
-    "Assam",
-    "Bihar",
-    "Chhattisgarh",
-    "Goa",
-    "Gujarat",
-    "Haryana",
-    "Himachal Pradesh",
-    "Jharkhand",
-    "Karnataka",
-    "Kerala",
-    "Madhya Pradesh",
-    "Maharashtra",
-    "Manipur",
-    "Meghalaya",
-    "Mizoram",
-    "Nagaland",
-    "Odisha",
-    "Punjab",
-    "Rajasthan",
-    "Sikkim",
-    "Tamil Nadu",
-    "Telangana",
-    "Tripura",
-    "Uttar Pradesh",
-    "Uttarakhand",
-    "West Bengal",
-    "Andaman and Nicobar Islands",
-    "Chandigarh",
-    "Dadra and Nagar Haveli and Daman and Diu",
-    "Delhi",
-    "Jammu and Kashmir",
-    "Ladakh",
-    "Lakshadweep",
-    "Puducherry"
-];
 const stateSelect = document.querySelector("#state");
-
-states.forEach(state => {
-    stateSelect.innerHTML += `
-        <option value="${state}">
-            ${state}
-        </option>
-    `;
-});
-const mandiData = {
-
-    "Uttar Pradesh": [
-        "Kanpur Mandi",
-        "Lucknow Mandi",
-        "Agra Mandi",
-        "Meerut Mandi",
-        "Varanasi Mandi",
-        "Prayagraj Mandi",
-        "Bareilly Mandi",
-        "Gorakhpur Mandi"
-    ],
-
-    "Punjab": [
-        "Ludhiana Mandi",
-        "Amritsar Mandi",
-        "Patiala Mandi",
-        "Jalandhar Mandi",
-        "Bathinda Mandi"
-    ],
-
-    "Haryana": [
-        "Karnal Mandi",
-        "Hisar Mandi",
-        "Rohtak Mandi",
-        "Kurukshetra Mandi",
-        "Panipat Mandi"
-    ],
-
-    "Rajasthan": [
-        "Jaipur Mandi",
-        "Kota Mandi",
-        "Jodhpur Mandi",
-        "Bikaner Mandi",
-        "Ajmer Mandi"
-    ],
-
-    "Madhya Pradesh": [
-        "Indore Mandi",
-        "Bhopal Mandi",
-        "Ujjain Mandi",
-        "Gwalior Mandi",
-        "Jabalpur Mandi"
-    ],
-
-    "Maharashtra": [
-        "Pune Mandi",
-        "Nagpur Mandi",
-        "Nashik Mandi",
-        "Kolhapur Mandi",
-        "Aurangabad Mandi"
-    ],
-
-    "Gujarat": [
-        "Ahmedabad Mandi",
-        "Rajkot Mandi",
-        "Surat Mandi",
-        "Vadodara Mandi",
-        "Bhavnagar Mandi"
-    ],
-
-    "Bihar": [
-        "Patna Mandi",
-        "Muzaffarpur Mandi",
-        "Gaya Mandi",
-        "Bhagalpur Mandi",
-        "Purnia Mandi"
-    ],
-
-    "West Bengal": [
-        "Kolkata Mandi",
-        "Siliguri Mandi",
-        "Durgapur Mandi",
-        "Asansol Mandi",
-        "Malda Mandi"
-    ],
-
-    "Karnataka": [
-        "Bengaluru Mandi",
-        "Mysuru Mandi",
-        "Hubli Mandi",
-        "Belagavi Mandi",
-        "Mangaluru Mandi"
-    ],
-
-    "Tamil Nadu": [
-        "Chennai Mandi",
-        "Coimbatore Mandi",
-        "Madurai Mandi",
-        "Salem Mandi",
-        "Tiruchirappalli Mandi"
-    ],
-
-    "Telangana": [
-        "Hyderabad Mandi",
-        "Warangal Mandi",
-        "Karimnagar Mandi",
-        "Nizamabad Mandi",
-        "Khammam Mandi"
-    ],
-
-    "Andhra Pradesh": [
-        "Vijayawada Mandi",
-        "Guntur Mandi",
-        "Visakhapatnam Mandi",
-        "Kurnool Mandi",
-        "Tirupati Mandi"
-    ],
-
-    "Chhattisgarh": [
-        "Raipur Mandi",
-        "Bilaspur Mandi",
-        "Durg Mandi",
-        "Korba Mandi",
-        "Jagdalpur Mandi"
-    ],
-
-    "Odisha": [
-        "Bhubaneswar Mandi",
-        "Cuttack Mandi",
-        "Sambalpur Mandi",
-        "Rourkela Mandi",
-        "Balasore Mandi"
-    ]
-};
 const mandiSelect = document.querySelector("#mandi");
 
-stateSelect.addEventListener("change", () => {
+let cropTom;
+let stateTom;
+let mandiTom;
 
-    const selectedState = stateSelect.value;
+let crops = [];
+let states = [];
+let mandiData = {};
+
+function createTomSelects() {
+    cropTom = new TomSelect("#crop", {
+        placeholder: "Select Crop"
+    });
+
+    stateTom = new TomSelect("#state", {
+        placeholder: "Select State",
+        onChange(value) {
+            updateMandiOptions(value);
+        }
+    });
+
+    mandiTom = new TomSelect("#mandi", {
+        placeholder: "Select Mandi"
+    });
+}
+
+function updateMandiOptions(selectedState) {
+    if (!mandiTom) return;
 
     mandiTom.clearOptions();
+    mandiTom.addOption({ value: "", text: "Select Mandi" });
+    mandiTom.setValue("");
 
-    if (!mandiData[selectedState]) return;
-
-    mandiData[selectedState].forEach(mandi => {
+    const markets = mandiData[selectedState] || [];
+    markets.forEach(mandi => {
         mandiTom.addOption({
             value: mandi,
             text: mandi
@@ -207,12 +44,104 @@ stateSelect.addEventListener("change", () => {
     });
 
     mandiTom.refreshOptions(false);
+}
+
+function populateFilterOptions(records) {
+    const cropSet = new Set();
+    const stateSet = new Set();
+    const mandiMap = {};
+
+    records.forEach(item => {
+        const crop = item.commodity?.trim();
+        const state = item.state?.trim();
+        const market = item.market?.trim();
+
+        if (crop) cropSet.add(crop);
+        if (state) stateSet.add(state);
+        if (state && market) {
+            mandiMap[state] = mandiMap[state] || new Set();
+            mandiMap[state].add(market);
+        }
+    });
+
+    crops = Array.from(cropSet).sort((a, b) => a.localeCompare(b, "en", { sensitivity: "base" }));
+    states = Array.from(stateSet).sort((a, b) => a.localeCompare(b, "en", { sensitivity: "base" }));
+    mandiData = Object.fromEntries(
+        Object.entries(mandiMap).map(([state, marketSet]) => [
+            state,
+            Array.from(marketSet).sort((a, b) => a.localeCompare(b, "en", { sensitivity: "base" }))
+        ])
+    );
+
+    if (cropTom) {
+        cropTom.clearOptions();
+        cropTom.addOption({ value: "", text: "Select Crop" });
+        crops.forEach(crop => cropTom.addOption({ value: crop, text: crop }));
+        cropTom.refreshOptions(false);
+    }
+
+    if (stateTom) {
+        stateTom.clearOptions();
+        stateTom.addOption({ value: "", text: "Select State" });
+        states.forEach(state => stateTom.addOption({ value: state, text: state }));
+        stateTom.refreshOptions(false);
+    }
+
+    if (mandiTom) {
+        mandiTom.clearOptions();
+        mandiTom.addOption({ value: "", text: "Select Mandi" });
+        mandiTom.refreshOptions(false);
+    }
+}
+
+async function loadFilterOptions() {
+    const pageSize = 1000;
+    let offset = 0;
+    let allRecords = [];
+
+    while (true) {
+        const params = new URLSearchParams();
+        params.set("format", "json");
+        params.set("api-key", apiKey);
+        params.set("limit", String(pageSize));
+        params.set("offset", String(offset));
+        params.set("fields", "commodity,state,market");
+
+        const url = `${apiUrl}?${params.toString()}`;
+        console.log("Loading filter options from API:", url);
+
+        try {
+            const response = await fetch(url, { headers: { Accept: "application/json" } });
+            if (!response.ok) {
+                console.error("Failed to load filter options:", response.status, response.statusText);
+                break;
+            }
+
+            const json = await response.json();
+            const records = Array.isArray(json.records) ? json.records : [];
+            allRecords.push(...records);
+
+            if (records.length < pageSize) {
+                break;
+            }
+
+            offset += pageSize;
+        } catch (error) {
+            console.error("Error loading filter options:", error);
+            break;
+        }
+    }
+
+    populateFilterOptions(allRecords);
+}
+
+createTomSelects();
+const searchButton = document.querySelector(".search-btn");
+
+stateSelect.addEventListener("change", () => {
+    updateMandiOptions(stateSelect.value);
 });
 
-new TomSelect("#crop");
-new TomSelect("#state");
-const mandiTom = new TomSelect("#mandi");
-const searchButton = document.querySelector(".search-btn");
 let currentMandiPrices = [];
 
 const apiKey = "579b464db66ec23bdd0000019d2042486107481564a706686f79301f";
@@ -220,6 +149,15 @@ const apiUrl = "https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43
 
 const mandiPricesBody = document.querySelector(".table-responsive table tbody");
 const updatedLabel = document.querySelector(".text-muted");
+const prevPageButton = document.querySelector("#prev-page");
+const nextPageButton = document.querySelector("#next-page");
+const pageInfoLabel = document.querySelector("#page-info");
+const pageSizeSelect = document.querySelector("#page-size");
+
+let currentPage = 1;
+let pageSize = Number(pageSizeSelect?.value ?? 20) || 20;
+let totalRecords = 0;
+let totalPages = 1;
 
 function formatChange(change) {
     if (typeof change !== "number") return change || "";
@@ -290,7 +228,8 @@ function getFilterParams() {
     const params = new URLSearchParams();
     params.set("format", "json");
     params.set("api-key", apiKey);
-    params.set("limit", "50");
+    params.set("limit", String(pageSize));
+    params.set("offset", String((currentPage - 1) * pageSize));
 
     const cropValue = cropSelect.value.trim();
     const stateValue = stateSelect.value.trim();
@@ -355,10 +294,12 @@ async function fetchMandiPrices(filters = new URLSearchParams()) {
         const json = await response.json();
         console.log("API response:", json);
         const prices = Array.isArray(json) ? json : (json.records || json.data || json.prices || json.results || []);
-        console.log("Loaded mandi prices:", prices.length, "records");
+        // derive totalRecords from API if available so pagination works
+        totalRecords = Number(json.total ?? json.count ?? prices.length) || prices.length;
+        updatePaginationControls();
+        console.log("Loaded mandi prices:", prices.length, "records", "totalRecords:", totalRecords);
         currentMandiPrices = prices;
         renderMandiPrices(prices);
-
         if (updatedLabel) {
             const now = new Date();
             const formatted = now.toLocaleDateString("en-IN", { day: "2-digit", month: "long", year: "numeric" });
@@ -379,6 +320,7 @@ async function fetchMandiPrices(filters = new URLSearchParams()) {
 if (searchButton) {
     searchButton.addEventListener("click", event => {
         event.preventDefault();
+        currentPage = 1;
         const filters = getFilterParams();
 
         if (apiUrl && !apiUrl.includes("example.com")) {
@@ -394,4 +336,48 @@ if (searchButton) {
     });
 }
 
-window.addEventListener("DOMContentLoaded", () => fetchMandiPrices(getFilterParams()));
+function updatePaginationControls() {
+    totalPages = Math.max(1, Math.ceil(totalRecords / pageSize));
+
+    if (pageInfoLabel) {
+        pageInfoLabel.textContent = `Page ${currentPage} of ${totalPages}`;
+    }
+
+    if (prevPageButton) {
+        prevPageButton.disabled = currentPage <= 1;
+    }
+    if (nextPageButton) {
+        nextPageButton.disabled = currentPage >= totalPages;
+    }
+}
+
+if (prevPageButton) {
+    prevPageButton.addEventListener("click", () => {
+        if (currentPage > 1) {
+            currentPage -= 1;
+            fetchMandiPrices(getFilterParams());
+        }
+    });
+}
+
+if (nextPageButton) {
+    nextPageButton.addEventListener("click", () => {
+        if (currentPage < totalPages) {
+            currentPage += 1;
+            fetchMandiPrices(getFilterParams());
+        }
+    });
+}
+
+if (pageSizeSelect) {
+    pageSizeSelect.addEventListener("change", () => {
+        pageSize = Number(pageSizeSelect.value) || 20;
+        currentPage = 1;
+        fetchMandiPrices(getFilterParams());
+    });
+}
+
+window.addEventListener("DOMContentLoaded", async () => {
+    await loadFilterOptions();
+    fetchMandiPrices(getFilterParams());
+});
